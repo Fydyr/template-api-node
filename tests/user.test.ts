@@ -1,86 +1,115 @@
-import request from 'supertest';
-import { app } from '../src';
-import { prismaMock } from './jest.setup';
+import request from 'supertest'
+import { app } from '../src'
+import { prismaMock } from './jest.setup'
+// import bcrypt from 'bcrypt'
 
 describe('User API', () => {
-  describe('POST /user', () => {
+  describe('POST /users', () => {
     it('should create a new user', async () => {
+      const newUser = {
+        email: 'test@example.com',
+        password: 'password123',
+      }
       const createdUser = {
         id: 1,
-        email: 'admin@mail.com',
-        password: 'truepassword',
-      };
+        ...newUser,
+      }
 
-      prismaMock.user.create.mockResolvedValue(createdUser);
+      prismaMock.user.create.mockResolvedValue(createdUser)
 
-      const response = await request(app)
-        .post('/user')
-        .send({ password: 'truepassword' });
+      const response = await request(app).post('/users').send(newUser)
 
-      expect(response.status).toBe(201);
-      expect(response.body).toEqual(createdUser);
-    });
-  });
+      expect(response.status).toBe(201)
+      expect(response.body).toEqual(createdUser)
+    })
+  })
+})
+/*
+    it('should return 500 if user creation fails', async () => {
+      prismaMock.user.create.mockRejectedValue(new Error('Database error'))
 
-  // describe('POST /login', () => {
-  //     it('should login a user and return a token', async () => {
-  //         const user = {
-  //             id: 1,
-  //             email: 'admin@mail.com',
-  //             password: 'truepassword',
-  //         };
-  //         const token = 'mockedToken';
+      const response = await request(app).post('/users').send({
+        email: 'test@example.com',
+        password: 'password123',
+      })
 
-  //         prismaMock.user.findUnique.mockResolvedValue(user);
+      expect(response.status).toBe(500)
+      expect(response.body).toEqual({
+        error: 'Failed to create user',
+      })
+    })
+  })
 
-  //         const response = await request(app)
-  //             .post('/user/login')
-  //             .send({ email: 'admin@mail.com', password: 'truePassword' });
+  describe('POST /login', () => {
+    it('should login a user and return a token', async () => {
+      const user = {
+        id: 1,
+        email: 'test@example.com',
+        password: await bcrypt.hash('password123', 10),
+      }
+      const token = 'mockedToken'
 
-  //         expect(response.status).toBe(200);
-  //         expect(response.body).toEqual({
-  //             token,
-  //         });
-  //     });
-  // });
-    describe('POST /user', () => {
-        it('should create a new user', async () => {
-            const createdUser = {
-                id: 1,
-                email: 'admin@mail.com',
-                password: 'truepassword',
-            };
+      prismaMock.user.findUnique.mockResolvedValue(user)
 
-            prismaMock.user.create.mockResolvedValue(createdUser);
+      const response = await request(app).post('/users/login').send({
+        email: 'test@example.com',
+        password: 'truePassword',
+      })
 
-            const response = await request(app)
-                .post('/user')
-                .send({ password: 'truepassword' });
+      expect(response.status).toBe(200)
+      expect(response.body).toEqual({
+        token,
+        message: 'Connexion réussie',
+      })
+    })
 
-            expect(response.status).toBe(201);
-            expect(response.body).toEqual(createdUser);
-        });
-    });
+    it('should return 401 if email is incorrect', async () => {
+      prismaMock.user.findUnique.mockResolvedValue(null)
 
-    // describe('POST /login', () => {
-    //     it('should login a user and return a token', async () => {
-    //         const user = {
-    //             id: 1,
-    //             email: 'admin@mail.com',
-    //             password: 'truepassword',
-    //         };
-    //         const token = 'mockedToken';
+      const response = await request(app).post('/users/login').send({
+        email: 'wrong@example.com',
+        password: 'truePassword',
+      })
 
-    //         prismaMock.user.findUnique.mockResolvedValue(user);
+      expect(response.status).toBe(401)
+      expect(response.body).toEqual({
+        error: 'Email incorrect',
+      })
+    })
 
-    //         const response = await request(app)
-    //             .post('/user/login')
-    //             .send({ email: 'admin@mail.com', password: 'truePassword' });
+    it('should return 401 if password is incorrect', async () => {
+      const user = {
+        id: 1,
+        email: 'test@example.com',
+        password: await bcrypt.hash('password123', 10),
+      }
 
-    //         expect(response.status).toBe(200);
-    //         expect(response.body).toEqual({
-    //             token,
-    //         });
-    //     });
-    // });
-});
+      prismaMock.user.findUnique.mockResolvedValue(user)
+
+      const response = await request(app).post('/users/login').send({
+        email: 'test@example.com',
+        password: 'wrongpassword',
+      })
+
+      expect(response.status).toBe(401)
+      expect(response.body).toEqual({
+        error: 'Mot de passe incorrect',
+      })
+    })
+
+    it('should return 500 if login fails', async () => {
+      prismaMock.user.findUnique.mockRejectedValue(new Error('Database error'))
+
+      const response = await request(app).post('/users/login').send({
+        email: 'test@example.com',
+        password: 'truePassword',
+      })
+
+      expect(response.status).toBe(500)
+      expect(response.body).toEqual({
+        error: 'Une erreur est survenue',
+      })
+    })
+  })
+})
+*/
