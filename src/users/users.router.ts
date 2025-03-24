@@ -1,9 +1,9 @@
 import {
-  createUser,
-  connectionUser,
-  getUsers,
-  deleteUser,
-  patchUser,
+    createUser,
+    connectionUser,
+    getUsers,
+    deleteUser,
+    patchUser,
 } from './users.controller';
 import { Router } from 'express';
 
