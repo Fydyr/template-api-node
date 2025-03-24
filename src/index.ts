@@ -10,6 +10,7 @@ app.use(express.json());
 
 const swaggerDocument = YAML.load(
   path.join(__dirname, './common/swagger.yaml'),
+    path.join(__dirname, './common/swagger.yaml'),
 );
 
 // Serveur Swagger UI à l'adresse /api-docs
@@ -21,4 +22,5 @@ export const server = app.listen(port);
 
 export function stopServer() {
   server.close();
+    server.close();
 }
