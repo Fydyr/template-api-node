@@ -27,9 +27,9 @@
     "keywords": [],
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/vfourny/nodejs-pokedex-api/issues"
+        "url": "https://github.com/Fydyr/template-api-node/issues"
     },
-    "homepage": "https://github.com/vfourny/nodejs-pokedex-api#readme",
+    "homepage": "https://github.com/Fydyr/template-api-node/#readme",
     "dependencies": {
         "@prisma/client": "^6.1.0",
         "bcrypt": "^5.1.1",
