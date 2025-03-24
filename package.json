@@ -22,7 +22,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/vfourny/nodejs-pokedex-api.git"
+        "url": "git+https://github.com/Fydyr/template-api-node/"
     },
     "keywords": [],
     "license": "ISC",
