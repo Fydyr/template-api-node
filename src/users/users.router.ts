@@ -1,4 +1,9 @@
 import {
+  createUser,
+  connectionUser,
+  getUsers,
+  deleteUser,
+  patchUser,
     createUser,
     connectionUser,
     getUsers,

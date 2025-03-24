@@ -9,6 +9,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 const swaggerDocument = YAML.load(
+  path.join(__dirname, './common/swagger.yaml'),
     path.join(__dirname, './common/swagger.yaml'),
 );
 
@@ -20,5 +21,6 @@ app.use(usersRouter);
 export const server = app.listen(port);
 
 export function stopServer() {
+  server.close();
     server.close();
 }

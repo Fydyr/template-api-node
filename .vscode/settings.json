@@ -1,4 +1,13 @@
 {
+
+  "postman.settings.dotenv-detection-notification-visibility": false,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always"
+  },
+  "eslint.validate": ["javascript", "typescript"]
+
     "postman.settings.dotenv-detection-notification-visibility": false,
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -6,4 +15,5 @@
         "source.fixAll.eslint": "always"
     },
     "eslint.validate": ["javascript", "typescript"]
+
 }
